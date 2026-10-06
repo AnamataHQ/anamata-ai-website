@@ -9,7 +9,7 @@ record: "I001"
 
 ## What is the operating record?
 
-The operating record is the audit trail of the AI systems that build and run this website, published on the website itself. The field log on the [About page](/about#ledger) and the strip at the bottom of every page are not illustrations. They are generated at build time from this site's public [git repository](https://github.com/EzraAnamata/anamata-ai-website). Every entry links to a real commit. If it isn't in the repository's history, it doesn't appear here.
+The operating record is the audit trail of the AI systems that build and run this website, published on the website itself. The field log on the [About page](/about#ledger) and the strip at the bottom of every page are not illustrations. They are generated at build time from this site's public [git repository](https://github.com/AnamataHQ/anamata-ai-website). Every entry links to a real commit. If it isn't in the repository's history, it doesn't appear here.
 
 ## Why publish it?
 
