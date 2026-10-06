@@ -8,7 +8,7 @@
  */
 import { execSync } from 'node:child_process';
 
-const REPO_URL = 'https://github.com/EzraAnamata/anamata-ai-website';
+const REPO_URL = 'https://github.com/AnamataHQ/anamata-ai-website';
 
 // The AI author identity (docs/authorship.md): unsigned commits by Otto are
 // AI work; signatures mark human-in-the-loop events.
