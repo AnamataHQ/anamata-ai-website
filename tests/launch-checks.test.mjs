@@ -1571,3 +1571,22 @@ describe('S12 — design pass: white ground + centered measure (#415)', () => {
     expect(subline, 'hero subline still contains an em-dash').not.toMatch(/\u2014/);
   });
 });
+
+describe('#418 — ownership and privacy in the footer', () => {
+  it('every page names Anamata BV with its KvK number', () => {
+    expect(allPages.length).toBeGreaterThan(0);
+    for (const rel of allPages) {
+      const { document } = page(rel);
+      const colophon = document.querySelector('footer .site-colophon')?.textContent ?? '';
+      expect(colophon, `${rel}: owner line`).toMatch(/ANAMATA BV · KVK 78520185/);
+    }
+  });
+
+  it('every page links the privacy statement from the footer', () => {
+    for (const rel of allPages) {
+      const { document } = page(rel);
+      const hrefs = [...document.querySelectorAll('footer nav a')].map((a) => a.getAttribute('href'));
+      expect(hrefs, `${rel}: privacy link`).toContain('https://anna-site.anamata.ai/privacy#en');
+    }
+  });
+});
