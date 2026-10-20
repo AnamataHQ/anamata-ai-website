@@ -15,6 +15,8 @@ import '../styles/tokens.generated.css';
 import '../styles/global.css';
 import TransparencyNotice from '../components/TransparencyNotice.astro';
 import { getLastAction } from '../lib/ledger.mjs';
+import { getCollection } from 'astro:content';
+import { buildGraph, serializeJsonLd } from '../lib/structured-data.mjs';
 // preload the three critical font files (design-brief typography note):
 // Poppins 200 (hero display), Poppins 400 (body), IBM Plex Mono 400 (record).
 import poppinsDisplayUrl from '@fontsource/poppins/files/poppins-latin-200-normal.woff2?url';
@@ -35,10 +37,18 @@ const { pathname } = Astro.url;
 // Absolute URLs for social/canonical (Astro.site = https://anamata.ai). The OG
 // card is the committed, metadata-stripped split-face composite (scripts/
 // build-og-image.mjs) — the one sanctioned figurative image, never Higgsfield.
-const canonical = new URL(pathname, Astro.site);
-const ogImage = new URL('/og-image.png', Astro.site);
+// src/pages/llms.txt.ts renders pages in the Astro container, which has no
+// `site`; there the request origin (https://anamata.ai) stands in, same value.
+const site = Astro.site ?? new URL(Astro.url.origin);
+const canonical = new URL(pathname, site);
+const ogImage = new URL('/og-image.png', site);
 const current = (p: string) =>
   (p === '/' ? pathname === '/' : pathname.startsWith(p)) ? 'page' : undefined;
+// GEO (#343): one schema.org graph per page, from existing data only. Article
+// routes resolve their entry by post.id, as src/pages/insights/[...slug].astro does.
+const route = pathname.endsWith('/') ? pathname : `${pathname}/`;
+const post = (await getCollection('insights')).find((p) => `/insights/${p.id}/` === route);
+const jsonLd = serializeJsonLd(buildGraph({ site, isHome: route === '/', post: post?.data }));
 ---
 
 <!doctype html>
@@ -77,6 +87,7 @@ const current = (p: string) =>
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImage} />
+    <script type="application/ld+json" is:inline set:html={jsonLd} />
   </head>
   <body>
     <header class="site-header">
