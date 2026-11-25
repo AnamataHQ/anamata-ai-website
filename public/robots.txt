@@ -1,4 +1,28 @@
+# Crawler policy: docs/geo-policy.md. Every crawler, including the AI search
+# and AI training crawlers named below, may read the whole site. The named
+# groups record that decision; behaviour is unchanged from the wildcard.
 User-agent: *
+Allow: /
+
+User-agent: GPTBot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-SearchBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Applebot-Extended
 Allow: /
 
 Sitemap: https://anamata.ai/sitemap-index.xml
